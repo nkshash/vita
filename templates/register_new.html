@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='logo/vita.ico') }}">
+    <title>Vita</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_register.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom styling for the checkbox and label */
+        .form-group {
+            font-size: 0.9rem; /* Smaller font size for the label */
+        }
+
+        #terms {
+            width: 15px; /* Smaller checkbox size */
+            height: 15px; /* Smaller checkbox size */
+            margin-right: 5px;
+        }
+        .modal-body {
+            height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            text-align: center; /* Centers the content horizontally */
+        }
+
+        /* Heading Styling */
+        .modal-body h1,
+        .modal-body h2,
+        .modal-body h3 {
+            color: #4CAF50; /* Green color for headings */
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: medium;
+        }
+
+        /* Paragraph and List Styling */
+        .modal-body p,
+        .modal-body ul {
+            text-align: left; /* Left-align paragraphs and lists for readability */
+            line-height: 1.6;
+            color: #555555;
+        }
+
+        .modal-body ul {
+            list-style-type: disc;
+            margin-left: 40px;
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            
+        }
+
+        /* Modal Footer Styling */
+        .modal-footer {
+            text-align: center; /* Centers the footer content */
+            padding: 10px;
+            background-color: #f1f1f1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal-body {
+                padding: 10px;
+            }
+
+            .modal-body ul {
+                margin-left: 20px;
+            }
+        }
+
+        /* Link Styling */
+        .modal-body a {
+            color: #4CAF50; /* Match link color with headings */
+            text-decoration: none;
+        }
+
+        .modal-body a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body style="background-color: #ECECEC;">
+<div class="wrapper">
+    <div class="inner">
+        <div class="image-holder">
+            <img src="{{ url_for('static', filename='img/registration.png') }}" alt="">
+        </div>
+        <form method="post" action="{{ url_for('register_new') }}">
+            <h3>Registration Form</h3>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-wrapper">
+                <span class="form-group">
+                    <input type="text" name="first_name" placeholder="First Name" class="form-control" required>
+                    <input type="text" name="last_name" placeholder="Last Name" class="form-control" required>
+                </span>
+                <input type="text" name="username" placeholder="Username" class="form-control" required>
+                <input type="text" name="email" placeholder="Email Address" class="form-control" value="{{ email }}" readonly>
+                
+            
+                <select name="gender" class="form-control" required>
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Female">Others</option>
+                </select>
+            
+                <input type="password" name="password" placeholder="Password" class="form-control" required>
+                <input type="password" name="confirm" placeholder="Confirm Password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    I accept the <a href="#" href="#" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-outline-success btn-block" id="registerBtn" disabled>Register
+                <i class="bi bi-arrow-right"></i>
+            </button>
+            <div class="already-account text-center mt-3">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <h1>VITA Terms and Conditions</h1>
+                <div class="section">
+                    <h2>Introduction</h2>
+                    <p>Welcome to VITA, an AI-powered healthcare chatbot application designed to assist users with medical advice and information. By accessing and using our services, you agree to comply with and be bound by the following Terms and Conditions, which incorporate both our Data Handling Policy and Image Handling Policy. These policies are designed to safeguard your personal and medical data, ensuring that we handle it responsibly and securely, in compliance with applicable laws and regulations such as the General Data Protection Regulation (GDPR) and the Health Insurance Portability and Accountability Act (HIPAA).</p>
+                </div>
+                
+                <div class="section">
+                    <h2>Information We Collect</h2>
+                    <h3>1. Personal Information:</h3>
+                    <ul>
+                        <li>Contact details: such as name, email address, and phone number.</li>
+                        <li>Medical information: including medical conditions, medical history, allergies, lifestyle, and demographic information like age, gender, and race.</li>
+                    </ul>
+        
+                    <h3>2. Automatically Collected Information:</h3>
+                    <ul>
+                        <li>IP addresses: for location tracking and service optimization.</li>
+                        <li>Usage data: such as log data, browsing history, and interaction patterns with the chatbot.</li>
+                    </ul>
+        
+                    <h3>3. Images Provided by Users:</h3>
+                    <p>Users may upload images of medical conditions for diagnosis or advice, which may contain personal and sensitive information.</p>
+        
+                    <h3>Password Security:</h3>
+                    <p>User passwords are hashed using industry-standard encryption protocols and securely stored, ensuring protection against unauthorized access.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>How We Use Your Information and Images</h2>
+                    <h3>1. Provision of Services:</h3>
+                    <ul>
+                        <li>To provide timely and personalized medical advice and support.</li>
+                        <li>To analyze images using recognition algorithms to identify features indicative of medical conditions.</li>
+                        <li>To allow IBM services, integrated into our application, to provide secure cloud storage, data processing, and system performance optimization.</li>
+                    </ul>
+        
+                    <h3>2. Improvement of Services:</h3>
+                    <ul>
+                        <li>To analyze user interactions and feedback to improve chatbot performance and accuracy.</li>
+                        <li>To enhance our image recognition algorithms and overall service offerings through machine learning.</li>
+                        <li>To enhance our image recognition algorithms and overall service offerings using machine learning, while recognizing that AI models, including ours, can be fallible. The current accuracy of our model is 86.22%, meaning there is a possibility of incorrect or incomplete recommendations.</li>
+                    </ul>
+        
+                    <h3>3. Compliance and Protection:</h3>
+                    <ul>
+                        <li>To comply with legal obligations and ensure the integrity and security of your data.</li>
+                        <li>To enforce our Terms of Service and other agreements.</li>
+                    </ul>
+                </div>
+        
+                <div class="section">
+                    <h2>Data and Image Retention</h2>
+                    <p>Medical Information: Retained for the duration of your interaction with the chatbot, plus any period required by healthcare regulations.</p>
+                    <p>Personal Information: Retained while you maintain an account with us and for a reasonable period thereafter to meet legal obligations.</p>
+                    <p>Usage Data: Typically retained for up to 24 months for analysis and service improvement.</p>
+                    <p>Medical Images: Retained while interacting with the chatbot; anonymized images may be retained longer for research and service improvement.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>Data and Image Security</h2>
+                    <p>We implement robust technical and organizational measures to safeguard your personal information and images. These measures include:</p>
+                    <ul>
+                        <li><strong>Encryption:</strong> Both in transit and at rest using protocols like AES-256 and TLS (Transport Layer Security).</li>
+                        <li><strong>Access Controls:</strong> Access to personal and image data is restricted through role-based access controls (RBAC) with multi-factor authentication (MFA).</li>
+                        <li><strong>Audit Logs:</strong> All access and modifications to personal data and images are logged with details such as timestamps and user IDs, with regular audits for compliance.</li>
+                        <li><strong>Data Minimization:</strong> We collect only the minimum necessary data to provide our services and anonymize or pseudonymous images where possible.</li>
+                        <li><strong>Backup and Disaster Recovery:</strong> Data and images are backed up regularly in encrypted, geographically distributed locations to ensure availability in case of a disaster.</li>
+                    </ul>
+                </div>
+        
+                <div class="section">
+                    <h2>User Rights</h2>
+                    <ul>
+                        <li><strong>Access and Correction:</strong> You can request access to or correction of your personal data or images through the app or by contacting us directly.</li>
+                        <li><strong>Deletion:</strong> You may request the deletion of your personal data or images at any time. Requests will be processed in line with applicable laws and our retention policies.</li>
+                        <li><strong>Revocation of Consent:</strong> You may revoke your consent for the processing of your personal data or images by contacting us. Upon revocation, we will cease processing your data, except where required by law.</li>
+                    </ul>
+                </div>
+        
+                <div class="section">
+                    <h2>IBM Services and Third-Party Access</h2>
+                    <p>Our app leverages IBM cloud services for secure data storage, processing, and backup. As part of this integration, IBM may have access to the information provided by users during the use of our app. While IBM adheres to stringent privacy standards, by using our services, you acknowledge this potential third-party access to your data.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>Children's Privacy</h2>
+                    <p>Our services are not intended for children under 13. We do not knowingly collect personal information or images from children under 13. If we discover that such data has been inadvertently collected, we will take immediate steps to delete it.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>No Log Sharing</h2>
+                    <p>In the event of any malfunction or breach, no audit logs or detailed system logs will be shared with third parties to ensure your privacy. All internal access to logs and data will remain strictly controlled within the limits outlined in our Data Handling Policy.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>AI Accuracy Disclaimer</h2>
+                    <p>While we strive to provide accurate and reliable medical advice, VITA is powered by AI algorithms that may not always deliver perfect results. The current accuracy of our model is 86.22%, meaning that there may be instances where the chatbot’s recommendations or advice could be inaccurate or incomplete. Users are encouraged to seek professional medical advice where necessary.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>Third-Party Services</h2>
+                    <p>We work with third-party services to help deliver our services. These third parties are bound by our data protection standards and privacy laws, including GDPR and HIPAA. Examples of third-party services include:</p>
+                    <ul>
+                        <li>Cloud Storage Providers: For secure data and image storage and backup.</li>
+                        <li>Analytics Services: To understand how users interact with our chatbot and improve our services.</li>
+                        <li>Medical Professionals: For consultation and validation of the medical information provided by the chatbot.</li>
+                    </ul>
+                </div>
+        
+                <div class="section">
+                    <h2>Changes to These Terms</h2>
+                    <p>We may update these Terms and Conditions, including the Data and Image Handling Policies, from time to time. Significant changes will be communicated via the app or other channels, and the revised Terms will be posted on our website and app. The date of the latest revision will be clearly indicated.</p>
+                </div>
+        
+                <div class="section">
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions or concerns about these Terms and Conditions, or the handling of your data and images, please contact us using the Contact Us form at the <a href="{{ url_for('index') }}">landing page</a>.</p>
+                </div>
+            </div>
+        
+            <footer>
+                &copy; 2024 VITA. All Rights Reserved.
+            </footer>
+            </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Enable the register button only when the terms checkbox is checked
+    document.getElementById('terms').addEventListener('change', function() {
+        document.getElementById('registerBtn').disabled = !this.checked;
+    });
+</script>
+</body>
+</html>

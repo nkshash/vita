@@ -1,0 +1,164 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="container-fluid" data-aos="fade-in">
+    <h4 id="welcome-message" class="text-center" style="color:#198754">About This Bot</h4>
+    <hr class="my-4" style="border-top: 5px solid #198754; z-index: inherit;">
+    <p class="mb-4 text-center">
+        Welcome to the About page! At VITA (Virtual Interactive Treatment Advisor), we're committed to revolutionizing healthcare accessibility, especially for rural and underserved communities. Our AI-powered healthcare chatbot is designed to break down barriers to quality healthcare by leveraging cutting-edge technology, including image recognition and natural language processing. With a vast database of medical knowledge and continuous learning capabilities, our chatbot provides personalized and actionable advice, helping users manage their health effectively. We're passionate about empowering individuals to take control of their well-being, no matter where they are.
+    </p>
+
+    <h4 class="my-4">Diseases Covered:</h4>
+    <div class="row">
+        <!-- Disease Card 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Gingivitis">
+                <div class="card-body">
+                    <h5 class="card-title">Gingivitis</h5>
+                    <p class="card-text">Gum Disease. Occurs when plaque and bacteria build up on your teeth and cause infection.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Mouth Ulcers">
+                <div class="card-body">
+                    <h5 class="card-title">Mouth Ulcers</h5>
+                    <p class="card-text">Painful sores on inner lips, gums, tongue, roof of the mouth or throat, such as a canker sore.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Tooth Discolouration">
+                <div class="card-body">
+                    <h5 class="card-title">Tooth Discolouration</h5>
+                    <p class="card-text">The staining or darkening of teeth.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 4 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Abrasions">
+                <div class="card-body">
+                    <h5 class="card-title">Abrasions</h5>
+                    <p class="card-text">An area damaged by scraping or wearing away.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 5 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Bruises">
+                <div class="card-body">
+                    <h5 class="card-title">Bruises</h5>
+                    <p class="card-text">An injury appearing as an area of discoloured skin caused by a blow or impact rupturing blood vessels.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 6 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Burns">
+                <div class="card-body">
+                    <h5 class="card-title">Burns</h5>
+                    <p class="card-text">An injury caused by exposure to heat or flame (first and second degrees only).</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 7 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Cuts/Lacerations">
+                <div class="card-body">
+                    <h5 class="card-title">Cuts/Lacerations</h5>
+                    <p class="card-text">A deep cut or tear in skin or flesh.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 8 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Diabetic Wounds">
+                <div class="card-body">
+                    <h5 class="card-title">Diabetic Wounds</h5>
+                    <p class="card-text">A serious complication caused by poor circulation, susceptibility to infection, and nerve damage from high blood sugar levels.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 9 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Surgical Wounds">
+                <div class="card-body">
+                    <h5 class="card-title">Surgical Wounds</h5>
+                    <p class="card-text">A cut through the skin made during surgery.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 10 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Venous Wounds">
+                <div class="card-body">
+                    <h5 class="card-title">Venous Wounds</h5>
+                    <p class="card-text">A wound on the leg or ankle caused by abnormal or damaged veins.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 11 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Cellulitis">
+                <div class="card-body">
+                    <h5 class="card-title">Cellulitis</h5>
+                    <p class="card-text">A skin condition causing lumpy, dimpled flesh on the thighs, hips, buttocks, and abdomen.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 12 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Impetigo">
+                <div class="card-body">
+                    <h5 class="card-title">Impetigo</h5>
+                    <p class="card-text">A contagious bacterial skin infection forming pustules and yellow crusty sores.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 13 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Athlete’s Foot">
+                <div class="card-body">
+                    <h5 class="card-title">Athlete’s Foot</h5>
+                    <p class="card-text">A fungal infection that usually begins between the toes.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 14 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Nail Fungus">
+                <div class="card-body">
+                    <h5 class="card-title">Nail Fungus</h5>
+                    <p class="card-text">A common condition that begins as a white or yellow spot under the tip of your fingernail or toenail.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Disease Card 15 -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100" style="border: 2px solid green;">
+                <img src="{{ url_for('static', filename='dashh/assets/img/injury.jpeg') }}" class="card-img-top" alt="Psoriasis">
+                <div class="card-body">
+                    <h5 class="card-title">Psoriasis</h5>
+                    <p class="card-text">A skin disease that causes red, itchy scaly patches, most commonly on the knees, elbows, trunk, and scalp.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

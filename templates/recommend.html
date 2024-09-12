@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .email-content {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            font-size: 16px;
+        }
+        .animation, .static-image {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .static-image img {
+            max-width: 20%;
+            height: auto;
+        }
+        .animation img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-content">
+        <h1>Hello {{ name }},</h1>
+        <p>{{ username }} has recommended you to check out our platform.</p>
+
+        <div class="static-image">
+            <!-- Replace 'your-image.jpg' with the path to your static image -->
+            <img src="https://drive.google.com/uc?export=view&id=1X0sb2Axawolw8PLiHZzqReF64gEwcZkA" alt="Static Image">
+        </div>
+
+        
+
+        <p>We're committed to revolutionizing healthcare accessibility, especially for rural and underserved communities. Our AI-powered healthcare chatbot is designed to break down barriers to quality healthcare by leveraging cutting-edge technology.</p>
+        <p>Visit us here: <a href="{{ app_url }}">{{ app_url }}</a></p>
+        <p>Best regards,</p>
+        <p>Team VITA</p> 
+    </div>
+</body>
+</html>

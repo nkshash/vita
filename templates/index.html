@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <title>Vita</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='logo/vita.ico') }}">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <!-- Other CSS files -->
+    <link href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  
+    <!-- Watson Assistant Chat -->
+    <script>
+      const customElement = document.querySelector('#WebChatContainer');
+      window.watsonAssistantChatOptions = {
+        integrationID: "2471a3ab-6e0b-4be6-a172-3304f884337b", // The ID of this integration.
+        region: "us-south", // The region your integration is hosted in.
+        serviceInstanceID: "0c9fd8e9-11cd-4ce3-9bd8-30f3209b5ff9",
+        element: customElement,
+ // The ID of your service instance.
+        onLoad: async (instance) => {
+          instance.updateCSSVariables({
+        'BASE-height': '700px',
+        'BASE-width': '400px', // Adjust width as needed
+         // Adjust distance from the right
+      });
+          await instance.render();
+        }
+      };
+      setTimeout(function(){
+        const t = document.createElement('script');
+        t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + 
+                (window.watsonAssistantChatOptions.clientVersion || 'latest') + 
+                "/WatsonAssistantChatEntry.js";
+        document.head.appendChild(t);
+      }, 0); // Added a delay of 0 ms to ensure it runs asynchronously
+    </script>
+    
+  </head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center">
+
+      <div class="logo me-auto">
+        <h1 style="color:green"><a href="#">VITA</a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#features">Features</a></li>
+          <li><a class="nav-link scrollto" href="#documentations">Documentations</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#tech">Technologies Used</a></li>
+          <li><a class="nav-link scrollto " href="#faq">FAQs</a></li>
+          <li><a class="nav-link scrollto" href="{{ url_for('login') }}">Login</a></li></ul>
+          
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header>
+<!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
+          <div>
+            <h1>Smart Care for Skin and Dental Health</h1>
+            <h2>Upload, Analyze, and Receive Homemade Treatments with IBM Technology</h2>
+            <a href="{{ url_for('login') }}" class="btn-get-started scrollto">Get Started</a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
+          <img src="{{ url_for('static', filename='img/hero-img.png') }}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+
+</section>
+<!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-6" data-aos="zoom-in">
+            <img src="{{ url_for('static', filename='img/about.jpg') }}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 d-flex flex-column justify-contents-center" data-aos="fade-left">
+            <div class="content pt-4 pt-lg-0">
+              <h3>Learn more about our WebApp</h3>
+              <p class="fst-italic">
+                Our AI-powered healthcare chatbot is designed to revolutionize healthcare accessibility, particularly in rural and underserved communities. Here's what sets our app apart:
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle"></i> <b>Innovative Technology:</b> Our AI chatbot uses advanced image recognition and NLP to understand and address medical concerns accurately.</li>
+                <li><i class="bi bi-check-circle"></i> <b>Comprehensive Knowledge:</b> Chatbot provides informed, situation-specific responses and recommendations.</li>
+                <li><i class="bi bi-check-circle"></i> <b>Actionable Advice:</b> Offers self-care tips and guidance for further medical attention to help users manage their health effectively.</li>
+                <li><i class="bi bi-check-circle"></i> <b>Continuous Improvement:</b> Our chatbot continuously evolves, adapting to user needs for more accurate and personalized assistance.</li>
+                <li><i class="bi bi-check-circle"></i> <b>Healthcare Access:</b> AI empowers individuals to take control of their health, regardless of location or traditional healthcare access.</li>
+
+              </ul>
+              <p>
+                Experience the future of healthcare accessibility with our AI-powered chatbot. Try it out today and discover how easy it is to get timely, accurate, and personalized medical advice and support, no matter where you are.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+      <div class="container">
+  
+          <div class="row">
+              <div class="col-lg-6 mt-2 mb-tg-0 order-2 order-lg-1">
+                  <ul class="nav nav-tabs flex-column">
+                      <li class="nav-item" data-aos="fade-up">
+                          <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">
+                              <h4>Remote Consultations & AI Technology</h4>
+                              <p>Enables effective remote healthcare and triage along with advance AI.</p>
+                          </a>
+                      </li>
+                      <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="100">
+                          <a class="nav-link" data-bs-toggle="tab" href="#tab-2">
+                              <h4>Built-in Image Enhancement</h4>
+                              <p>Optimizes images for accurate medical analysis.</p>
+                          </a>
+                      </li>
+                      <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="200">
+                          <a class="nav-link" data-bs-toggle="tab" href="#tab-3">
+                              <h4>Multilingual Support</h4>
+                              <p>Interact in preferred language for inclusivity.</p>
+                          </a>
+                      </li>
+                      <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="300">
+                          <a class="nav-link" data-bs-toggle="tab" href="#tab-4">
+                              <h4>Cross-Device Compatibility</h4>
+                              <p>Accessible on any internet-connected device.</p>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+              <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in">
+                  <div class="tab-content">
+                      <div class="tab-pane active show" id="tab-1">
+                          <figure>
+                              <img src="{{ url_for('static', filename='img/features-1.png') }}" alt="" class="img-fluid">
+                          </figure>
+                      </div>
+                      <div class="tab-pane" id="tab-2">
+                          <figure>
+                              <img src="{{ url_for('static', filename='img/features-2.png') }}" alt="" class="img-fluid">
+                          </figure>
+                      </div>
+                      <div class="tab-pane" id="tab-3">
+                          <figure>
+                              <img src="{{ url_for('static', filename='img/features-3.png') }}" alt="" class="img-fluid">
+                          </figure>
+                      </div>
+                      <div class="tab-pane" id="tab-4">
+                          <figure>
+                              <img src="{{ url_for('static', filename='img/features-4.png') }}" alt="" class="img-fluid">
+                          </figure>
+                      </div>
+                  </div>
+              </div>
+          </div>
+  
+      </div>
+  </section>
+  <!-- End Features Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="documentations" class="services section-bg">
+      <div class="container">
+    
+        <div class="section-title" data-aos="fade-up">
+          <h2>Documentations</h2>
+          <p>Our documentation suite covers essential aspects: the Problem Statement identifies key challenges, while the Model Architecture and Pipeline document outlines our technical approach. Database, Userflow, and UI/UX documentation detail system functionality, and the Feature and Future Work document outlines enhancements and roadmap.</p>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in">
+            <div class="icon-box icon-box-pink">
+              <div class="icon"><i class="bi bi-question-square-fill"></i></div><br>
+              <h4 class="title"><a href="#">Problem Statement</a></h4>
+              <p class="description">An in-depth analysis of the healthcare challenges our chatbot addresses, focusing on accessibility and efficiency improvements. <a href="#">Read More</a></p>
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box icon-box-cyan">
+              <div class="icon"><i class="bi bi-file-earmark-medical-fill"></i></div><br>
+              <h4 class="title"><a href="#">Model Architecture and Pipeline</a></h4>
+              <p class="description"> Detailed documentation of our chatbot's technical framework, including system design, data processing pipeline, and integration of AI technologies. <a href="#">Read More</a></p>
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box icon-box-green">
+              <div class="icon"><i class="bi bi-database-check"></i></div><br>
+              <h4 class="title"><a href="#">Database, User Flow, and UI/UX</a></h4>
+              <p class="description">Comprehensive overview of our database structure, user interaction flow, and design principles ensuring an intuitive and user-friendly interface. <a href="#">Read More</a></p>
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box icon-box-blue">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4 class="title"><a href="#">Features and Future Work</a></h4>
+              <p class="description">Description of the current functionalities of our chatbot and planned enhancements to further improve healthcare accessibility and user experience. <a href="#">Read More</a></p>
+            </div>
+          </div>
+    
+        </div>
+    
+      </div>
+    </section>
+    
+
+
+
+    <!-- ======= Cta Section ======= -->
+    <section id="cta" class="cta">
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in">
+          <div class="col-lg-9 text-center text-lg-start">
+            <h3>Introducing Our Healthcare Chatbot</h3>
+            <p> Discover how our advanced healthcare chatbot addresses medical concerns using cutting-edge AI technology. Watch the video to understand our problem statement, see the innovative technology in action, and learn how it enhances healthcare accessibility for all.</p>
+          </div>
+          <div class="col-lg-3 cta-btn-container text-center">
+            <a class="cta-btn align-middle" href="#">Watch here</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Testimonials</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                <h3>Saul Goodman</h3>
+                <h4>Ceo &amp; Founder</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                <h3>Sara Wilsson</h3>
+                <h4>Designer</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                <h3>Jena Karlis</h3>
+                <h4>Store Owner</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                <h3>Matt Brandon</h3>
+                <h4>Freelancer</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <p>
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                </p>
+                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                <h3>John Larson</h3>
+                <h4>Entrepreneur</h4>
+              </div>
+            </div><!-- End testimonial item -->
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+
+<!-- ======= Team Section ======= -->
+<section id="team" class="team">
+  <div class="container">
+
+      <div class="section-title" data-aos="fade-up">
+          <h2>Team</h2>
+          <p>Our team, skilled in project coordination, technical architecture, and UI/UX design, is dedicated to enhancing healthcare accessibility. We leverage cutting-edge technology and user-centric design to create effective, seamless solutions, ensuring a smooth and enjoyable user experience.</p>
+      </div>
+
+      <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+              <div class="member" data-aos="zoom-in">
+                  <div class="pic"><img src="{{ url_for('static', filename='img/team/team-1.png') }}" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                      <h4>Rhea Mewadhari</h4>
+                      <span>Team Lead</span>
+                      <div class="social">
+                          <a href="#"><i class="bi bi-twitter"></i></a>
+                          <a href="#"><i class="bi bi-facebook"></i></a>
+                          <a href="#"><i class="bi bi-instagram"></i></a>
+                          <a href="#"><i class="bi bi-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+              <div class="member" data-aos="zoom-in" data-aos-delay="100">
+                  <div class="pic"><img src="{{ url_for('static', filename='img/team/team-2.png') }}" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                      <h4>Shashank Mishra</h4>
+                      <span>Lead Architect</span>
+                      <div class="social">
+                          <a href="#"><i class="bi bi-twitter"></i></a>
+                          <a href="#"><i class="bi bi-facebook"></i></a>
+                          <a href="#"><i class="bi bi-instagram"></i></a>
+                          <a href="#"><i class="bi bi-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+              <div class="member" data-aos="zoom-in" data-aos-delay="200">
+                  <div class="pic"><img src="{{ url_for('static', filename='img/team/team-3.png') }}" class="img-fluid" alt=""></div>
+                  <div class="member-info">
+                      <h4>Robert Levis Kibet</h4>
+                      <span>UI/UX Designer</span>
+                      <div class="social">
+                          <a href="#"><i class="bi bi-twitter"></i></a>
+                          <a href="#"><i class="bi bi-facebook"></i></a>
+                          <a href="#"><i class="bi bi-instagram"></i></a>
+                          <a href="#"><i class="bi bi-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+</section>
+
+
+    
+    <section id="tech" class="clients">
+      <div class="container">
+  
+          <div class="section-title" data-aos="fade-up">
+              <h2>Technology Used</h2>
+              <p>Here are the products utilized in the development of the app required for the IBM Call for Code challenge.</p>
+          </div>
+  
+          <div class="row no-gutters clients-wrap clearfix wow fadeInUp">
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in">
+                      <img src="{{ url_for('static', filename='img/clients/client-1.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="100">
+                      <img src="{{ url_for('static', filename='img/clients/client-2.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="150">
+                      <img src="{{ url_for('static', filename='img/clients/client-3.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="200">
+                      <img src="{{ url_for('static', filename='img/clients/client-4.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="250">
+                      <img src="{{ url_for('static', filename='img/clients/client-5.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="300">
+                      <img src="{{ url_for('static', filename='img/clients/client-6.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6">
+                  <div class="client-logo" data-aos="zoom-in" data-aos-delay="350">
+                      <img src="{{ url_for('static', filename='img/clients/client-7.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+              <div class="col-lg-3 col-md-4 col-xs-6" data-aos="zoom-in" data-aos-delay="400">
+                  <div class="client-logo">
+                      <img src="{{ url_for('static', filename='img/clients/client-8.png') }}" class="img-fluid" alt="">
+                  </div>
+              </div>
+  
+          </div>
+  
+      </div>
+  </section>
+  <!-- End Clients Section -->
+
+    
+    <section id="faq" class="faq">
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <ul class="faq-list">
+
+          <li>
+            <div data-bs-toggle="collapse" class="collapsed question" href="#faq1">How does the AI-powered chatbot work? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq1" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Our chatbot utilizes advanced artificial intelligence (AI) technology, including image recognition and image enhancement, to analyze user input and provide relevant medical advice and recommendations.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq2" class="collapsed question"> Is the chatbot capable of diagnosing medical conditions? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq2" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                While the chatbot can offer insights and recommendations based on the information provided by users, it does not provide formal medical diagnoses. Instead, it offers informed suggestions and encourages users to seek professional medical advice for definitive diagnosis and treatment.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq3" class="collapsed question">Is my personal health information secure? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq3" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Yes, we take data privacy and security seriously. Your personal health information is encrypted and stored securely in compliance with industry standards. We adhere to strict privacy policies to safeguard your data and ensure confidentiality.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq4" class="collapsed question">Can the chatbot understand multiple languages? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq4" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Yes, our chatbot supports multilingual communication, enabling users to interact with the system in their preferred language. This feature promotes inclusivity and accessibility for users from diverse linguistic backgrounds.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq5" class="collapsed question">How accurate are the recommendations provided by the chatbot? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq5" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Our chatbot's recommendations are based on a comprehensive database of medical knowledge and guidelines, developed in collaboration with healthcare professionals. While the chatbot strives to provide accurate and relevant advice, users should always consult with qualified healthcare professionals for personalized medical guidance.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">What types of medical issues can the chatbot assist with? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq6" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                The chatbot can provide guidance on a wide range of medical concerns, from minor ailments to chronic conditions. It offers advice on self-care practices, over-the-counter medications, lifestyle modifications, and when necessary, recommends seeking further medical attention from a healthcare professional.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div data-bs-toggle="collapse" href="#faq6" class="collapsed question">What types of medical issues can the chatbot assist with? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq6" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                The chatbot can provide guidance on a wide range of medical concerns, from minor ailments to chronic conditions. It offers advice on self-care practices, over-the-counter medications, lifestyle modifications, and when necessary, recommends seeking further medical attention from a healthcare professional.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div data-bs-toggle="collapse" href="#faq7" class="collapsed question">How does the chatbot handle emergencies? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq7" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                In case of medical emergencies, the chatbot emphasizes the importance of seeking immediate medical assistance from emergency services or healthcare providers. It provides guidance on recognizing emergency situations and prompts users to take appropriate action without delay.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div data-bs-toggle="collapse" href="#faq8" class="collapsed question">Can I access the chatbot from any device? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq8" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Yes, our chatbot is accessible from any internet-connected device, including smartphones, tablets, and computers. This cross-device compatibility ensures seamless access to healthcare assistance wherever and whenever needed.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div data-bs-toggle="collapse" href="#faq9" class="collapsed question">How frequently is the chatbot updated with new medical information?<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq9" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                Our chatbot's database is regularly updated with the latest medical research, guidelines, and best practices. Additionally, machine learning algorithms continuously analyze user interactions and feedback to improve the chatbot's performance over time.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div data-bs-toggle="collapse" href="#faq10" class="collapsed question">Is there a cost associated with using the chatbot? <i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i></div>
+            <div id="faq10" class="collapse" data-bs-parent=".faq-list">
+              <p>
+                No, our chatbot is available for free to users. We believe in making healthcare assistance accessible to everyone, regardless of their financial resources or geographic location.
+              </p>
+            </div>
+          </li>
+
+        </ul>
+
+      </div>
+    </section><!-- End Frequently Asked Questions Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Contact Us</h2>
+          <p>Contact us using the form below.</p>
+        </div>
+    
+        <div class="row justify-content-center">
+          <script>
+            async function handleSubmit(event) {
+              event.preventDefault();
+              
+              const formData = new FormData(event.target);
+              const formObject = Object.fromEntries(formData.entries());
+              const submitButton = event.target.querySelector('button[type="submit"]');
+              
+              document.querySelector('.loading').style.display = 'block'; // Show loading indicator
+              submitButton.textContent = 'Sending...'; // Change button text to "Sending..."
+    
+              try {
+                const response = await fetch('/submit_msg', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(formObject)
+                });
+    
+                const result = await response.json();
+    
+                if (result.status === 'success') {
+                  document.querySelector('.sent-message').style.display = 'block';
+                  document.querySelector('.error-message').style.display = 'none';
+                  event.target.reset(); // Clear the form after successful submission
+                } else {
+                  document.querySelector('.error-message').textContent = result.message;
+                  document.querySelector('.error-message').style.display = 'block';
+                }
+              } catch (error) {
+                document.querySelector('.error-message').textContent = 'An error occurred: ' + error.message;
+                document.querySelector('.error-message').style.display = 'block';
+              } finally {
+                document.querySelector('.loading').style.display = 'none'; // Hide loading indicator
+                submitButton.textContent = 'Send Message'; // Reset button text to "Send Message"
+              }
+            }
+          </script>
+          
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-center justify-content-center" data-aos="fade-center">
+            <form id="contact-form" onsubmit="handleSubmit(event)" method="post" role="form" >
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group col-md-6 mt-3 mt-md-0">
+                  <label for="email">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <label for="subject">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <label for="message">Message</label>
+                <textarea class="form-control" name="message" rows="10" id="message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading" style="display: none;">Loading</div>
+                <div class="alert alert-success alert-dismissible fade show sent-message" style="display: none;" role="alert">
+                  Your message has been sent. Thank you!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="error-message alert alert-danger" style="display: none;"></div>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-outline-success">Send Message</button>
+              </div>
+            </form>
+            
+          </div>
+    
+        </div>
+    
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+   
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Sova</span></strong>. All Rights Reserved
+      </div>
+      
+    </div>
+  </footer>
+  <div id="WebChatContainer"></div>
+  
+
+  
+  <!-- Bootstrap JavaScript -->
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Other JavaScript files -->
+<script src="{{ url_for('static', filename='vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>

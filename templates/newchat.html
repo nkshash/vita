@@ -1,0 +1,374 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<style>
+    .container {
+        padding-top: 2px;
+        margin-top: 0;
+    }
+
+    .btn-close {
+        font-size: 1.5rem; /* Adjust font size as needed */
+        padding: 0.5rem 1rem;
+    }
+
+    .drop-zone {
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        padding: 40px; /* Larger padding for the drop zone */
+        cursor: pointer;
+        background: white;
+        margin-bottom: 20px;
+        font-size: 18px; /* Larger font for better visibility */
+        text-align: left; /* Align text to the left inside the drop zone */
+        margin-top: 0; /* Remove top margin */
+    }
+
+    .image-area {
+        border: 2px dashed rgba(255, 255, 255, 0.7);
+        padding: 1rem;
+        position: relative;
+        margin-top: 0; /* Remove top margin */
+    }
+
+    .container {
+        text-align: left; /* Align container content to the left */
+        margin-top: 0; /* Ensure no top margin */
+    }
+
+    .btn-uploading {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+    
+    .btn-sending {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+
+<div class="container" data-aos="fade-in">
+    <div class="row align-items-center w-100 mb-4">
+        <div class="col-5 text-start">
+            <h5>Upload Image</h5>
+        </div>
+        <div class="col-6 text-start">
+            <!-- Close Button using Bootstrap -->
+            <a href="{{ url_for('home') }}" class="btn btn-outline-danger" aria-label="Close">
+                <span aria-hidden="true"><i class="bi bi-x"></i></span>
+            </a>
+        </div>
+    </div>
+    
+    <form id="uploadForm" enctype="multipart/form-data" onsubmit="uploadImage(event)" class="w-100" style="max-width: 500px;">
+        <div class="drop-zone" id="drop-zone">
+            <p>Drag & drop an image or click to select</p>
+            <input id="upload" type="file" name="file" style="display: none;" accept="image/*" required>
+        </div>
+        <input id="uploadButton" type="submit" value="Upload" class="btn btn-outline-success mt-3"> 
+        <button id="clear-btn" class="btn btn-outline-secondary mt-3" onclick="clearImage(event)">Clear Image</button>
+        <button id="sendLabelButton" class="btn btn-outline-primary mt-3" onclick="sendLabelToChatbot(event)">Send Label to Chatbot</button>
+    </form>
+
+    <p class="font-italic mt-3">The image uploaded will be rendered inside the box below.</p>
+    <div id="image-gallery" class="image-area">
+        <!-- Image preview area -->
+    </div>
+    <div id="result" class="mt-4"></div>
+    <div id="error-message" class="text-danger mt-3"></div> <!-- Error message container -->
+</div>
+
+<!-- Bootstrap JS (for interactive elements like dropdowns, modals, etc.) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    window.watsonAssistantChatOptions = {
+        integrationID: "569714c5-f740-4bac-8824-5e4f663990c1", // The ID of this integration.
+        region: "us-south", // The region your integration is hosted in.
+        serviceInstanceID: "0c9fd8e9-11cd-4ce3-9bd8-30f3209b5ff9",
+        openChatByDefault: true, // Ensure chat is always open
+        showLauncher: false,
+        showRestartButton: true, // Show restart button
+        onLoad: async (instance) => {
+            window.chatInstance = instance; // Store the instance for later use
+            console.log('Watson Assistant instance loaded.');
+            instance.on({ type: 'send', handler: saveMessage });
+            instance.on({ type: 'receive', handler: saveMessage });
+            instance.on({ type: 'history:begin', handler: saveHistory });
+            await instance.render();
+        }
+    };
+
+// Function to generate a unique session ID
+const messages = [];
+
+// Function to save individual messages
+function saveMessage(event) {
+    messages.push(event.data);
+}
+
+// Function to save the history of chat
+function saveHistory(event) {
+    messages.push(...event.messages);
+}
+
+// Function to generate downloadable chat history
+function createDownload() {
+    const downloadLines = [createDownloadText('From', 'Message')];
+
+    messages.forEach(message => {
+        if (message.input?.text) {
+            // User's message
+            downloadLines.push(createDownloadText('You', message.input.text));
+        } else if (message.output?.generic?.length) {
+            // Assistant's message
+            message.output?.generic.forEach(messageItem => {
+                if (messageItem?.text) {
+                    downloadLines.push(createDownloadText('Lendyr', messageItem.text));
+                }
+            });
+        }
+    });
+
+    return downloadLines.join('\n');
+}
+
+// Function to format the text for the download
+
+// Function to trigger the download of chat history
+
+
+// Function to send chat history to the server for storing in IBM Cloudant (MongoDB)
+async function saveChatHistoryToServer() {
+    const chatData = createDownload();
+    const response = await fetch('/save-chat-history', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: userEmail, // Assuming you have userEmail available in the session
+            chat_history: chatData,
+            timestamp: new Date().toISOString()
+        })
+    });
+
+    if (response.ok) {
+        console.log('Chat history saved successfully.');
+    } else {
+        console.error('Failed to save chat history.');
+    }
+}
+    async function sendLabelToChatbot(event) {
+        event.preventDefault();
+        
+        const sendButton = document.getElementById('sendLabelButton');
+        sendButton.innerText = 'Sending...';
+        sendButton.classList.add('btn-sending');
+        
+        try {
+            const resultDiv = document.getElementById('result');
+            const label = resultDiv.querySelector('li')?.textContent?.split(' - ')[0];
+
+            if (label && window.chatInstance) {
+                await window.chatInstance.send({
+                    input: {
+                        message_type: 'text',
+                        text: label
+                    }
+                });
+                console.log('Message sent:', label);
+            } else {
+                console.error('Chat instance is not available or label not found.');
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+        } finally {
+            sendButton.innerText = 'Send Label to Chatbot';
+            sendButton.classList.remove('btn-sending');
+        }
+    }
+
+    setTimeout(function() {
+        const t = document.createElement('script');
+        t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+        t.onload = () => console.log('Watson Assistant script loaded.');
+        t.onerror = (e) => console.error('Error loading Watson Assistant script:', e);
+        document.head.appendChild(t);
+    });
+
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+    function uploadImage(event) {
+        event.preventDefault();
+        const uploadButton = document.getElementById('uploadButton');
+        uploadButton.value = 'Uploading...';
+        uploadButton.classList.add('btn-uploading');
+        
+        let formData = new FormData(document.getElementById('uploadForm'));
+        
+        fetch("/upload_disease", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            uploadButton.value = 'Upload'; // Reset button text
+            uploadButton.classList.remove('btn-uploading'); // Reset button state
+            
+            let resultDiv = document.getElementById('result');
+            if (data.error) {
+                resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            } else {
+                // Display the uploaded image
+                let img = document.createElement('img');
+                img.src = data.image_url;
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '5px';
+                img.style.marginTop = '10px';
+                img.style.marginBottom = '10px';
+
+                let gallery = document.getElementById('image-gallery');
+                gallery.innerHTML = ''; // Clear previous image
+                gallery.appendChild(img);
+
+                // Display top 3 prediction results
+                let confidences = data.predictions.confidences;
+
+                // Sort predictions by confidence
+                confidences.sort((a, b) => b.confidence - a.confidence);
+
+                let resultHTML = '<h2>Prediction Results</h2><ul>';
+                confidences.slice(0, 3).forEach((prediction, index) => {
+                    resultHTML += `<li>${prediction.label} - ${(prediction.confidence * 100).toFixed(2)}%</li>`;
+                });
+                resultHTML += '</ul>';
+                resultDiv.innerHTML = resultHTML;
+
+                // Send the top label to the chatbot
+                sendLabelToChatbot(event);
+            }
+        })
+        .catch(error => {
+            uploadButton.value = 'Upload'; // Reset button text
+            uploadButton.classList.remove('btn-uploading'); // Reset button state
+            
+            console.error('Error:', error);
+            let resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+    }
+
+    document.getElementById('upload').addEventListener('change', function() {
+        readURL(this);
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            let file = input.files[0];
+            if (file.size > MAX_FILE_SIZE) {
+                document.getElementById('error-message').innerText = 'Error: File size exceeds 10 MB.';
+                document.getElementById('uploadForm').reset();
+                document.getElementById('image-gallery').innerHTML = '';
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                let img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%';
+                img.style.borderRadius = '5px';
+                img.style.marginTop = '10px';
+                img.style.marginBottom = '10px';
+
+                let div = document.createElement('div');
+                div.classList.add('image-container');
+                div.appendChild(img);
+
+                let gallery = document.getElementById('image-gallery');
+                gallery.appendChild(div);
+
+                document.getElementById('error-message').innerText = '';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function clearImage(event) {
+    event.preventDefault();
+    document.getElementById('uploadForm').reset();
+    document.getElementById('image-gallery').innerHTML = '';
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('error-message').innerText = '';
+
+    const email = "user@example.com"; // Replace with the actual method to get the user's email
+
+    // Save chat history before clearing
+    fetch('/save-chat-history', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            messages: messages, // Send the chat history
+            timestamp: new Date().toISOString(), // Add a timestamp
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            console.log(data.message);
+
+            // Restart the chatbot conversation after saving chat history
+            if (window.chatInstance) {
+                window.chatInstance.restartConversation().then(() => {
+                    console.log('Chatbot conversation restarted.');
+
+                    // Trigger the restart button click to show the restart button
+                    const restartButton = document.querySelector('[data-action="restart"]');
+                    if (restartButton) {
+                        restartButton.click();
+                        console.log('Restart button clicked to show restart options.');
+                    } else {
+                        console.error('Restart button not found.');
+                    }
+                }).catch(error => {
+                    console.error('Error restarting chatbot conversation:', error);
+                });
+            } else {
+                console.error('Chat instance is not available for restart.');
+            }
+        }
+    })
+    .catch(error => console.error('Error saving chat history:', error));
+}
+
+    document.getElementById('drop-zone').addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = '#f8f9fa'; // Optional: Change background on drag over
+    });
+
+    document.getElementById('drop-zone').addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.style.background = 'white'; // Reset background on drag leave
+    });
+
+    document.getElementById('drop-zone').addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        let files = e.dataTransfer.files;
+        document.getElementById('upload').files = files; // Assign files to input
+        readURL(document.getElementById('upload')); // Preview the file
+        this.style.background = 'white'; // Reset background on drop
+    });
+
+    document.getElementById('drop-zone').addEventListener('click', function() {
+        document.getElementById('upload').click();
+    });
+</script>
+
+{% endblock %}

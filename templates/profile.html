@@ -1,0 +1,198 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<style>
+.profile-picture-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* Makes the image circular */
+    border: 1px solid #28a745;
+}
+
+</style>
+<div class="container my-5" data-aos="fade-in">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <!-- Heading -->
+            <h4 id="welcome-message" class="text-center" style="color:#198754">Update Profile</h4>
+    <hr class="my-4" style="border-top: 5px solid #198754; z-index: inherit;">
+
+            <!-- Profile Form -->
+            <form id="profileForm" enctype="multipart/form-data">
+                <!-- Profile Picture -->
+                <div class="form-group text-center mb-4">
+                    <label for="profile_picture" class="form-label">Profile Picture:</label>
+                    <div class="profile-picture-container mb-3">
+                        <img src="{{ user.profile_picture  if user.profile_picture else url_for('static', filename='uploads/user.jpeg') }}" alt="Profile Picture" id="profile_picture_preview" class="profile-picture">
+                    </div>
+                    <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                </div>
+
+                <!-- Username (Non-editable) -->
+                <div class="form-group mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" class="form-control border-success" id="username" name="username" value="{{ user.username }}" readonly>
+                </div>
+
+                <!-- Email (Non-editable) -->
+                <div class="form-group mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control border-success" id="email" name="email" value="{{ user.email }}" readonly>
+                </div>
+
+                <!-- Allergies -->
+                <div class="form-group mb-3">
+                    <label for="allergies" class="form-label">Allergies:</label>
+                    <textarea class="form-control border-success" id="allergies" name="allergies" rows="3">{{ user.allergies or '' }}</textarea>
+                </div>
+
+                <!-- Illness -->
+                <div class="form-group mb-3">
+                    <label for="illness" class="form-label">Illness:</label>
+                    <textarea class="form-control border-success" id="illness" name="illness" rows="3">{{ user.illness or '' }}</textarea>
+                </div>
+
+                <!-- Medication -->
+                <div class="form-group mb-3">
+                    <label for="medication" class="form-label">Medication:</label>
+                    <textarea class="form-control border-success" id="medication" name="medication" rows="3">{{ user.medication or '' }}</textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                        <span id="submitBtnText">Update Profile</span>
+                        <span id="submitBtnLoading" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal for Success Message -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Profile Updated</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="successMessage">
+                <!-- Success message will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // File size limit (10 MB in bytes)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+    document.getElementById('profile_picture').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        // Check if a file is selected
+        if (file) {
+            // Validate file size
+            if (file.size > MAX_FILE_SIZE) {
+                alert('File size exceeds 10 MB limit.');
+                event.target.value = ''; // Clear the file input
+                document.getElementById('profile_picture_preview').src = ''; // Clear the preview
+                return;
+            }
+
+            // Update preview if file size is acceptable
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile_picture_preview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        const fileInput = document.getElementById('profile_picture');
+        const file = fileInput.files[0];
+
+        // Check file size before submission
+        if (file && file.size > MAX_FILE_SIZE) {
+            alert('File size exceeds 10 MB limit.');
+            event.preventDefault(); // Prevent form submission
+            return;
+        }
+
+        // Prevent default form submission to handle it via AJAX
+        event.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const submitBtnLoading = document.getElementById('submitBtnLoading');
+        const formData = new FormData(this);
+
+        // Disable the button and show loading
+        submitBtn.disabled = true;
+        submitBtnText.textContent = 'Submitting...';
+        submitBtnLoading.classList.remove('d-none');
+
+        const startTime = Date.now();
+
+        fetch('{{ url_for("update_profile") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = data.message;
+
+            // Show the modal
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Update the profile picture preview if changed
+            if (data.profile_picture) {
+                document.getElementById('profile_picture_preview').src = data.profile_picture;
+            }
+
+            // Update other fields if needed
+            document.getElementById('allergies').value = data.allergies;
+            document.getElementById('illness').value = data.illness;
+            document.getElementById('medication').value = data.medication;
+
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(2000 - elapsedTime, 0); // Ensure at least 2 seconds delay
+
+            setTimeout(() => {
+                // Re-enable the button and hide loading after 2 seconds
+                submitBtn.disabled = false;
+                submitBtnText.textContent = 'Update Profile';
+                submitBtnLoading.classList.add('d-none');
+            }, remainingTime);
+        })
+        .catch(error => {
+            console.error('Error updating profile:', error);
+            document.getElementById('successMessage').textContent = 'An error occurred. Please try again.';
+
+            // Show the modal with error message
+            const errorModal = new bootstrap.Modal(document.getElementById('successModal'));
+            errorModal.show();
+
+            // Re-enable the button and hide loading immediately on error
+            submitBtn.disabled = false;
+            submitBtnText.textContent = 'Update Profile';
+            submitBtnLoading.classList.add('d-none');
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h3>Upload Image</h3>
+    <div class="row py-4">
+        <div class="col-lg-6">
+            <form id="uploadForm" enctype="multipart/form-data" onsubmit="uploadImage(event)">
+                <div class="drop-zone" id="drop-zone" style="border: 2px dashed #ddd; border-radius: 5px; padding: 20px; text-align: center; cursor: pointer; background: white;">
+                    <p>Drag & drop an image or click to select</p>
+                    <input id="upload" type="file" name="file" style="display: none;" accept="image/*" required>
+                </div>
+                <input type="submit" value="Upload" class="btn btn-primary mt-3"> 
+                <button id="clear-btn" class="btn btn-secondary mt-3" onclick="clearImage()">Clear Image</button>
+            </form>
+            <p class="font-italic mt-3">The image uploaded will be rendered inside the box below.</p>
+            <div class="image-area mt-4" style="border: 2px dashed rgba(255, 255, 255, 0.7); padding: 1rem; position: relative;">
+                <img id="imageResult" src="#" alt="" style="max-width: 100%; border-radius: 5px;">
+            </div>
+            <div id="result" class="mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    function uploadImage(event) {
+        event.preventDefault();
+        let formData = new FormData(document.getElementById('uploadForm'));
+        
+        fetch("/upload_image", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            let resultDiv = document.getElementById('result');
+            if (data.error) {
+                resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            } else {
+                let predictions = Object.entries(data).map(([label, percentage]) => ({
+                    label,
+                    percentage: parseFloat(percentage)
+                }));
+
+                predictions.sort((a, b) => b.percentage - a.percentage);
+
+                let resultHTML = '<h2>Prediction Results</h2><ul>';
+                predictions.forEach(prediction => {
+                    resultHTML += `<li>${prediction.label} - ${(prediction.percentage * 100).toFixed(2)}%</li>`;
+                });
+                resultHTML += '</ul>';
+                resultDiv.innerHTML = resultHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            let resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imageResult').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    document.getElementById('upload').addEventListener('change', function () {
+        readURL(this);
+    });
+
+    function clearImage() {
+        document.getElementById('uploadForm').reset();
+        document.getElementById('imageResult').src = '#';
+        document.getElementById('result').innerHTML = '';
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+    
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.backgroundColor = '#f1f1f1';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.backgroundColor = 'white';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.backgroundColor = 'white';
+        const files = e.dataTransfer.files;
+        if (files.length === 1 && files[0].type.startsWith('image/')) {
+            document.getElementById('upload').files = files;
+            readURL(document.getElementById('upload'));
+        } else {
+            alert('Please drop only one image file.');
+        }
+    });
+
+    dropZone.addEventListener('click', () => {
+        document.getElementById('upload').click();
+    });
+</script>
+
+{% endblock %}
