@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.upload-section {
+    margin-bottom: 20px;
+}
+
+#result-section {
+    margin-top: 20px;
+}
+
+#result {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#result div {
+    margin-bottom: 5px;
+}
